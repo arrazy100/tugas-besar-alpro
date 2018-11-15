@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1542281382 source:f:\um\algoritma dan pemrograman\tugas besar\main.cpp
+1542229036 source:f:\um\algoritma dan pemrograman\tugas besar\main.cpp
 	"header/menu.h"
 	"header/main.h"
 	"header/bos.h"
@@ -18,15 +18,24 @@
 	"main.h"
 	"bos.h"
 
-1542281515 f:\um\algoritma dan pemrograman\tugas besar\header\menu.h
+1542288798 f:\um\algoritma dan pemrograman\tugas besar\header\menu.h
 	<iostream>
 	"main.h"
 	"bos.h"
+	"karyawan.h"
 
-1542281611 f:\um\algoritma dan pemrograman\tugas besar\header\main.h
+1542229036 f:\um\algoritma dan pemrograman\tugas besar\header\main.h
 	"bos.h"
 
-1542281588 f:\um\algoritma dan pemrograman\tugas besar\header\bos.h
+1542288544 f:\um\algoritma dan pemrograman\tugas besar\header\bos.h
+	<fstream>
+	<sstream>
+	<iostream>
+	<string>
+	<vector>
+	<algorithm>
+
+1542288731 f:\um\algoritma dan pemrograman\tugas besar\header\karyawan.h
 	<fstream>
 	<sstream>
 	<iostream>

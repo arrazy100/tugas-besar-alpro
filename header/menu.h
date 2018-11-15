@@ -4,10 +4,12 @@
 #include <iostream>
 #include "main.h"
 #include "bos.h"
+#include "karyawan.h"
 
 class Menu {
 private:
     Bos atasan;
+    Karyawan bawahan;
     Init* init_;
     int i;
 public:
@@ -28,10 +30,11 @@ public:
         switch(i){
         case 0: init_->setTrue(true); init_->awal(); break;
         case 1: atasan.inputKaryawan(); bos(); break;
-        case 2: atasan.cetakKaryawan(); system("pause"); bos(); break;
+        case 2: atasan.cetakKaryawan(); bos(); break;
         case 3: atasan.hasilKerja(); bos(); break;
         case 4: atasan.tambahTugas(); bos(); break;
         case 5: atasan.kesimpulanKerja(); bos(); break;
+        default: salah(); break;
         }
     }
     void karyawan() {
@@ -39,16 +42,19 @@ public:
         std::cout << "Selamat datang, " << init_->getNama() << "\n\n";
         std::cout << "====== MENU KARYAWAN ======" << std::endl;
         std::cout << "1. Tampilkan Daftar Tugas" << std::endl;
-        std::cout << "2. Input Tugas" << std::endl;
-        std::cout << "3. Ganti Tugas" << std::endl;
+        std::cout << "2. Tugas Terverifikasi" << std::endl;
+        std::cout << "3. Laporan Bulanan Kerja" << std::endl;
         std::cout << "0. Logout" << std::endl;
         std::cout << "Pilih menu : "; std::cin >> i;
         switch(i){
         case 0: init_->setTrue(true); init_->awal(); break;
-        case 1:	break;
-        case 2: break;
-        case 3: break;
+        case 1:	bawahan.daftarTugas(); karyawan(); break;
+        case 2: bawahan.tugasDone(); karyawan(); break;
+        case 3: bawahan.laporanBulanan(); karyawan(); break;
+        default: salah(); break;
         }
+    }
+    void salah(){
     }
 };
 

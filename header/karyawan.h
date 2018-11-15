@@ -12,7 +12,13 @@ public:
     Karyawan(){
     }
     void daftarTugas(){
-
+        //bikin tampilan
+    }
+    void tugasDone(){
+        //bikin tampilan
+    }
+    void laporanBulanan(){
+        //bikin tampilan
     }
 };
 
