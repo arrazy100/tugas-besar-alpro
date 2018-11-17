@@ -11,13 +11,13 @@ private:
 public:
     Karyawan(){
     }
-    void daftarTugas(){
+    void daftarTugas(std::string nama){
         //bikin tampilan
     }
-    void tugasDone(){
+    void tugasDone(std::string nama){
         //bikin tampilan
     }
-    void laporanBulanan(){
+    void laporanBulanan(std::string nama){
         //bikin tampilan
     }
 };

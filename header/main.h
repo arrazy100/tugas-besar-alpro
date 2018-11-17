@@ -8,7 +8,7 @@ private:
     int i;
     char c;
     std::string usr, pass;
-    std::string username = "", password = "", status;
+    std::string namalengkap, username = "", password = "", status;
     bool is_bos;
     bool is_true;
     Bos bos;
@@ -47,6 +47,7 @@ public:
     bool log(std::string user, std::string pass){
         std::ifstream file("data/data.dt");
         while (!file.eof()){
+            file >> namalengkap;
             file >> username;
             file >> password;
             file >> status;
@@ -59,7 +60,8 @@ public:
         return false;
     }
     std::string getNama(){
-        return usr;
+        std::replace(namalengkap.begin(), namalengkap.end(), '_', ' ');
+        return namalengkap;
     }
     bool isBos(){
         return is_bos;

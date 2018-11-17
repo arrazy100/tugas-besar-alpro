@@ -32,12 +32,11 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="bos.h" />
-		<Unit filename="karyawan.h" />
+		<Unit filename="header/bos.h" />
+		<Unit filename="header/karyawan.h" />
+		<Unit filename="header/main.h" />
+		<Unit filename="header/menu.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="main.h" />
-		<Unit filename="menu.h" />
-		<Unit filename="version.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

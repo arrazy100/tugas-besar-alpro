@@ -18,16 +18,16 @@
 	"main.h"
 	"bos.h"
 
-1542288798 f:\um\algoritma dan pemrograman\tugas besar\header\menu.h
+1542419965 f:\um\algoritma dan pemrograman\tugas besar\header\menu.h
 	<iostream>
 	"main.h"
 	"bos.h"
 	"karyawan.h"
 
-1542229036 f:\um\algoritma dan pemrograman\tugas besar\header\main.h
+1542418886 f:\um\algoritma dan pemrograman\tugas besar\header\main.h
 	"bos.h"
 
-1542288544 f:\um\algoritma dan pemrograman\tugas besar\header\bos.h
+1542421719 f:\um\algoritma dan pemrograman\tugas besar\header\bos.h
 	<fstream>
 	<sstream>
 	<iostream>
@@ -35,7 +35,7 @@
 	<vector>
 	<algorithm>
 
-1542288731 f:\um\algoritma dan pemrograman\tugas besar\header\karyawan.h
+1542419878 f:\um\algoritma dan pemrograman\tugas besar\header\karyawan.h
 	<fstream>
 	<sstream>
 	<iostream>
