@@ -32,8 +32,8 @@ public:
     void login(){
         system("cls");
         std::cout << "====== LOGIN SESSION ======\n";
-        std::cout << "Masukkan username: "; std::cin >> usr;
-        std::cout << "Masukkan password: "; std::cin >> pass;
+        std::cout << "Username: "; std::getline(std::cin >> std::ws, usr);
+        std::cout << "Password: "; std::getline(std::cin >> std::ws, pass);
         if (!log(usr, pass)){
             std::cout << "Username/ password salah\n";
             std::cout << "Coba lagi? "; std::cin >> c;
@@ -62,9 +62,6 @@ public:
     std::string getNama(){
         std::replace(namalengkap.begin(), namalengkap.end(), '_', ' ');
         return namalengkap;
-    }
-    bool isBos(){
-        return is_bos;
     }
     bool getStatus(std::string jabatan){
         return (status == jabatan);

@@ -22,18 +22,20 @@ public:
         std::cout << "====== MENU ATASAN ======" << std::endl;
         std::cout << "1. Tambah Karyawan \n";
         std::cout << "2. Tampilkan Karyawan \n";
-        std::cout << "3. Hasil Kerja Karyawan \n";
-        std::cout << "4. Tambah Tugas Karyawan \n";
-        std::cout << "5. Ekspor Laporan Akhir Hasil Kerja \n";
+        std::cout << "3. Tambah Tugas Karyawan \n";
+        std::cout << "4. Daftar Kerja Karyawan \n";
+        std::cout << "5. Verifikasi Kerja Karyawan \n";
+        std::cout << "6. Laporan Hasil Kerja Karyawan \n";
         std::cout << "0. Logout \n";
         std::cout << "Pilih menu: "; std::cin >> i;
         switch(i){
         case 0: init_->setTrue(true); init_->awal(); break;
-        case 1: atasan.inputKaryawan(); bos(); break;
-        case 2: atasan.cetakKaryawan(); system("pause"); bos(); break;
-        case 3: atasan.hasilKerja(); bos(); break;
-        case 4: atasan.tambahTugas(); bos(); break;
-        case 5: atasan.kesimpulanKerja(); bos(); break;
+        case 1: atasan.inputKaryawan(); break;
+        case 2: atasan.cetakKaryawan(); system("pause"); break;
+        case 3: atasan.tambahTugas(); break;
+        case 4: atasan.daftarKerja("belum"); break;
+        case 5: atasan.daftarKerja("sudah"); break;
+        case 6: atasan.laporanKerja(); break;
         default: salah(); break;
         }
     }
@@ -56,6 +58,9 @@ public:
         }
     }
     void salah(){
+        std::cout << "Menu tidak terdefinisi" << std::endl;
+        system("pause");
+        return;
     }
 };
 

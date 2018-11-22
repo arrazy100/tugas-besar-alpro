@@ -4,8 +4,8 @@
 
 int main(){
     Init init;
-    Menu menu(&init);
     init.awal();
+    Menu menu(&init);
 
     while (init.isTrue()){
         if (init.getStatus("bos")){
