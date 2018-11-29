@@ -1,2 +1,2 @@
 #Compiling
-Setting compiler flag to c++ 11 then compile project.
+Centang 'c++11' pada Code::Blocks Setting->Compiler, lalu compile seperti biasa....
