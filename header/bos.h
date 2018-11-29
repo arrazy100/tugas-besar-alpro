@@ -24,17 +24,31 @@ public:
         system("cls");
         std::string nama, nik = "", username;
         char c;
-        std::cout << "Masukkan nama karyawan                : "; std::getline(std::cin >> std::ws, nama);
-        std::cout << "Masukkan username karyawan            : "; std::cin >> username;
+        //input nama karyawan
         do {
-            std::cout << "Masukkan kode karyawan (harus 4 digit): "; std::cin >> nik;
+            std::cout << "Masukkan nama karyawan                : "; std::getline(std::cin >> std::ws, nama);
+            if (std::find(nama_.begin(), nama_.end(), nama) != nama_.end()){
+                std::cout << "Nama sudah terdaftar" << std::endl;
+                continue;
+            }
+            else break;
+        } while(true);
+        //input username karyawan
+        std::cout << "Masukkan username karyawan            : "; tangkapError(&username);
+        do {
+            std::cout << "Masukkan kode karyawan (harus 4 digit): "; tangkapError(&nik);
+            if (std::find(nik_.begin(), nik_.end(), nik) != nik_.end()){
+                std::cout << "Kode sudah terdaftar" << std::endl;
+                continue;
+            }
         } while (nik.length() != 4);
-        std::cout << "Yakin ingin menambah karyawan? "; std::cin >> c;
+        //yakin ingin menambah karyawan?
+        std::cout << "Yakin ingin menambah karyawan? "; tangkapError(&c);;
         if (c == 'y' || c == 'Y'){
             //tambah data karyawan
             std::fstream file("data/karyawan.dt");
             file.seekp(0, std::ios::end);
-            file << "\n" << nama << ":" << nik;
+            file << nama << ":" << nik << "\n";
             file.close();
             nama_.push_back(nama);
             nik_.push_back(nik);
@@ -42,12 +56,13 @@ public:
             std::replace(nama.begin(), nama.end(), ' ', '_');
             std::fstream data("data/data.dt");
             data.seekp(0, std::ios::end);
-            data << "\n" << nama << " " << username << " " << nik << " karyawan";
+            data << nama << " " << username << " " << nik << " karyawan" << "\n";
             data.close();
         }
         return;
     }
     void dataKaryawan(){
+        //masukkan data karyawan ke vector (mirip linked list)
         std::fstream file("data/karyawan.dt");
         std::string line, nama, nik;
         while (getline(file, line)){
@@ -60,7 +75,8 @@ public:
         file.close();
         return;
     }
-    void dataTugas(std::string namat, std::string *var, std::string data){
+    void dataTugas(std::string namat, std::string *var, std::string data, char par = '\n'){
+        //baca data tugas, masukkan ke string
         *var = "";
         dl_ = "";
         std::fstream file(data);
@@ -68,34 +84,39 @@ public:
         bool tambah = false;
         while (std::getline(file, line)){
             std::stringstream iss(line);
-            std::getline(iss, nama, ':');
+            std::getline(iss, nama, ':'); //contoh Muhammad Rezal:
             if ( (std::find(nama_.begin(), nama_.end(), nama) != nama_.end()) && (namat == nama) ){
-                std::getline(iss, tugas, ',');
-                std::getline(iss, dl, '\n');
-                tambah = true;
+                std::getline(iss, tugas, ','); //contoh buat survei,
+                if (line.find(par) != std::string::npos){
+                    std::getline(iss, dl, par); //contoh 2<, artinya masih belum dikerjakan
+                    tambah = true;
+                }
             }
             if (tambah){
+                //masukkan string tugas ke pointer var
                 *var = *var + tugas + "/";
-                dl_ = dl_ + dl + '_';
+                //masukkan string deadline ke variabel dl_
+                dl_ = dl_ + dl + "?";
                 tambah = false;
             }
         }
         file.close();
         return;
     }
-    int cetakTugas(std::string nama, std::string *var, std::string data){
-        dataTugas(nama, var, data);
-        std::stringstream t(*var), u(dl_);
+    int cetakTugas(std::string nama, std::string *var, std::string data, char par = '\n'){
+        //panggil fungsi dataTugas
+        dataTugas(nama, var, data, par);
+        std::stringstream t(*var), u(dl_); //stringstream digunakan untuk parsing
         std::string ltugas, ldl;
         int n = 0;
         //cetak daftar tugas
-        if (std::find(nama_.begin(), nama_.end(), nama) != nama_.end()){
+        if (std::find(nama_.begin(), nama_.end(), nama) != nama_.end()){ //jika nama karyawan ada
             std::cout << "Data :\n";
-            if (*var == ""){
+            if (*var == ""){ //jika tugas kosong
                 std::cout << "Daftar tidak ada!" << std::endl;
             }
-            else {
-                while (std::getline(t, ltugas, '/') && std::getline(u, ldl, '_')){
+            else { //jika tugas ada
+                while (std::getline(t, ltugas, '/') && std::getline(u, ldl, '?')){
                     std::cout << n+1 << ". " << ltugas << "( " << ldl << " )" << std::endl;
                     n++;
                 }
@@ -106,9 +127,9 @@ public:
     }
     void cetakKaryawan(){
         system("cls");
-        //pengurutan
-        for (int a=0; a<nik_.size(); a++){
-            for (int b = a+1; b<nik_.size(); b++){
+        //pengurutan karyawan berdasarkan nik
+        for (unsigned int a=0; a<nik_.size(); a++){
+            for (unsigned int b = a+1; b<nik_.size(); b++){
                 if (nik_.at(a) >= nik_.at(b)){
                     std::swap(nama_.at(a), nama_.at(b));
                     std::swap(nik_.at(a), nik_.at(b));
@@ -116,8 +137,8 @@ public:
             }
         }
         //ukuran nama terpanjang
-        int len_s = 0;
-        for (int a=0; a<nik_.size(); a++){
+        unsigned int len_s = 0;
+        for (unsigned int a=0; a<nik_.size(); a++){
             if (nama_.at(a).length() > len_s){
                 len_s = nama_.at(a).length();
             }
@@ -129,7 +150,7 @@ public:
         std::cout << b << "\n";
         std::cout.width(len_s / 2 + 1); std::cout << "NAMA"; std::cout.width(len_s + 1); std::cout << "NIK\n";
         std::cout << b << "\n";
-        for (int a=0; a<nik_.size(); a++){
+        for (unsigned int a=0; a<nik_.size(); a++){
             panjang = (len_s + (len_s + 2) / 2) - nama_.at(a).length();
             std::cout << " " << nama_.at(a); std::cout.width(panjang); std::cout << nik_.at(a) << std::endl;
         }
@@ -140,15 +161,16 @@ public:
     }
     void daftarKerja(std::string status){
         system("cls");
+        //panggil cetakKaryawan
         cetakKaryawan();
         std::string nama;
         int len;
         std::cout << "Pilih nama karyawan: "; std::getline(std::cin >> std::ws, nama);
-        if (status == "belum"){
-            len = cetakTugas(nama, &tugas_, "data/tugas.dt");
+        if (status == "belum"){ //untuk tugas yang belum diinput oleh karyawan
+            len = cetakTugas(nama, &tugas_, "data/tugas.dt", '<');
         }
         else {
-            len = cetakTugas(nama, &selesai, "data/tugas_selesai.dt");
+            len = cetakTugas(nama, &selesai, "data/tugas_selesai.dt", '>');
             if (len != 0) verifikasiTugas(nama, len);
         }
         std::cout << "\n";
@@ -157,76 +179,70 @@ public:
     }
     void tambahTugas(){
         system("cls");
+        //panggil cetakKaryawan
         cetakKaryawan();
         std::string tugas, dl = "", target = "";
-        do {
-            std::cout << "Masukkan Tugas (tanpa : dan ,)    : "; std::getline(std::cin >> std::ws, tugas);
-        } while (std::any_of(tugas.begin(), tugas.end(), [](char x){return (':' == x) || (',' == x);}));
-        do {
+        do { //masukkan tugas tanpa : , < >
+            std::cout << "Masukkan Tugas (tanpa : , < >)    : "; std::getline(std::cin >> std::ws, tugas);
+        } while (std::any_of(tugas.begin(), tugas.end(), [](char x){return (':' == x) || (',' == x) || ('<' == x) || ('>' == x);}));
+        do { //masukkan deadline hari, hanya angka
             std::cout << "Masukkan Deadline (angka hari)    : "; std::getline(std::cin >> std::ws, dl);
         } while (! (std::all_of(dl.begin(), dl.end(), ::isdigit)) );
-        do {
-            std::cout << "Masukkan Target                   : "; std::getline(std::cin >> std::ws, target);
+        do { //masukkan target pegawai
+            std::cout << "Masukkan Target Pegawai           : "; std::getline(std::cin >> std::ws, target);
         } while (! (std::find(nama_.begin(), nama_.end(), target) != nama_.end()) );
-		std::cout << "Yakin ingin menambahkan tugas? "; std::cin >> c;
-		if ( !(std::find(nama_.begin(), nama_.end(), target) != nama_.end()) ){
-            return;
-		}
+        //yakin?
+		std::cout << "Yakin ingin menambahkan tugas? "; tangkapError(&c);
 		if (c == 'y' || c == 'Y'){
+            //tulis tugas ke dalam file tugas.dt
             std::fstream file("data/tugas.dt");
             file.seekp(0, std::ios::end);
-            file << "\n" << target << ":" << tugas << "," << dl;
+            file << target << ":" << tugas << "," << dl << "<" << "\n";
             file.close();
 		}
 		return;
     }
-    void laporanKerja(){
-        system("cls");
-        //isi tampilan mau gimana
-        return;
-    }
     void verifikasi(std::string nama, int i){
         //verifikasi tugas
-        std::string tugas__;
-        dataTugas(nama, &tugas__, "data/tugas_selesai.dt");
-        std::stringstream line_(tugas__);
-        std::stringstream ldl_(dl_);
         std::string tugas, dl;
-        for (int j=0; j<i; j++){
-            std::getline(line_, tugas, '/');
-            std::getline(ldl_, dl, '_');
+        std::string tugas__;
+        dataTugas(nama, &tugas__, "data/tugas_selesai.dt", '>');
+        std::stringstream line(tugas__);
+        std::stringstream ldl(dl_);
+        for (int j=0; j<i; j++){ //untuk mendapatkan tugas dan deadline dari index yang diinput pengguna
+            std::getline(line, tugas, '/');
+            std::getline(ldl, dl, '?');
         }
-        std::fstream file("data/tugas_selesai.dt");
+        //buka file tugas_selesai.dt, temp2.dt (sebagai temporary), dan tugas_verify.dt
+        std::ifstream file("data/tugas_selesai.dt");
         std::ofstream tmp("data/temp2.dt");
         std::fstream out("data/tugas_verify.dt");
-        dataTugas(nama, &tugas__, "data/tugas");
         std::string ln;
-        tugas = nama + ":" + tugas + "," + dl;
+        tugas = nama + ":" + tugas + "," + dl + ">"; //tugas = nama:tugas,dl
         while(std::getline(file, ln)){
-            out.seekp(0, std::ios::end);
-            out << "\n" << ln;
-            if (ln.compare(tugas) != 0){
-                tmp << ln << std::endl;
+            if (ln != tugas){
+                tmp << ln << "\n";
             }
         }
+        out.seekp(0, std::ios::end);
+        out << tugas << "\n";
         file.close();
         tmp.close();
         out.close();
-        remove("data/tugas_selesai.dt");
-        rename("data/temp2.dt", "data/tugas_selesai.dt");
+        remove("data/tugas_selesai.dt"); //hapus file
+        rename("data/temp2.dt", "data/tugas_selesai.dt"); //ubah nama file
         //hapus tugas
-        dataTugas(nama, &tugas__, "data/tugas.dt");
-        std::stringstream line(tugas__);
-        std::stringstream ldl(dl_);
-        for (int j=0; j<i; j++){
+        dataTugas(nama, &tugas__, "data/tugas.dt", '>');
+        std::stringstream tdl(dl_);
+        for (int j=0; j<i; j++){ //untuk mendapatkan tugas dan deadline dari index yang diinput pengguna
             std::getline(line, tugas, '/');
-            std::getline(ldl, dl, '_');
+            std::getline(tdl, dl, '?');
         }
-        tugas = nama + ":" + tugas + "," + dl;
+        tugas = nama + ":" + tugas + "," + dl + ">";
         std::ifstream dtugas("data/tugas.dt");
         std::ofstream temp("data/temp.dt");
         while (std::getline(dtugas, ln)){
-            if (ln.compare(tugas) != 0){
+            if (ln != tugas){
                 temp << ln << std::endl;
             }
         }
@@ -237,15 +253,69 @@ public:
         return;
     }
     void verifikasiTugas(std::string nama, int n){
-        std::cout << "Verifikasi Tugas? "; std::cin >> c;
+        std::cout << "Verifikasi Tugas? "; tangkapError(&c);
         if (c == 'y' || c == 'Y'){
             do {
-                std::cout << "Pilih tugas nomor? "; std::cin >> i;
+                std::cout << "Pilih tugas nomor? "; tangkapError(&i);
             } while (i>n);
-            std::cout << "Yakin? "; std::cin >> c;
+            std::cout << "Yakin? "; tangkapError(&c);
             if (c == 'y' || c == 'Y') verifikasi(nama, i);
         }
         return;
+    }
+    void gantiPassword(std::string nama){
+        std::string namat = nama, pw, line;
+        std::replace(namat.begin(), namat.end(), ' ', '_');
+        std::ifstream file("data/data.dt");
+        std::ofstream temp("data/temp.dt");
+        system("cls");
+        std::cout << "Masukkan password baru: "; tangkapError(&pw);
+        temp << "\n";
+        while (std::getline(file, line)){
+            std::string nama__, username, password, status;
+            file >> nama__;
+            file >> username;
+            file >> password;
+            file >> status;
+            if (namat == nama__){
+                temp << nama__ << " " << username << " " << pw << " " << status << std::endl;
+            }
+            else {
+                temp << nama__ << " " << username << " " << password << " " << status << std::endl;
+            }
+        }
+        file.close();
+        temp.close();
+        remove("data/data.dt");
+        rename("data/temp.dt", "data/data.dt");
+        return;
+    }
+    void tangkapError(int *i){
+        try {
+            std::cin >> *i;
+            if (std::cin.fail()){
+                std::cout << "Input error" << std::endl;
+            }
+        }
+        catch(char *error){}
+    }
+    void tangkapError(char *c){
+        try {
+            std::cin >> *c;
+            if (std::cin.fail()){
+                std::cout << "Input error" << std::endl;
+            }
+        }
+        catch(char *error){}
+    }
+    void tangkapError(std::string *s){
+        try {
+            std::cin >> *s;
+            if (std::cin.fail()){
+                std::cout << "Input error" << std::endl;
+            }
+        }
+        catch(char *error){}
     }
 };
 

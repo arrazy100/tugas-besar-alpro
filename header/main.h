@@ -23,7 +23,7 @@ public:
         std::cout << "====== SOFTWARE PERUSAHAAN PT TUNGGAL IKA ======" << std::endl;
         std::cout << "1. Login \n";
         std::cout << "0. Keluar \n";
-        std::cout << "Pilih menu: "; std::cin >> i;
+        std::cout << "Pilih menu: "; tangkapError(&i);
         switch(i){
         case 0: is_true = false; break;
         case 1: login(); break;
@@ -36,11 +36,15 @@ public:
         std::cout << "Password: "; std::getline(std::cin >> std::ws, pass);
         if (!log(usr, pass)){
             std::cout << "Username/ password salah\n";
-            std::cout << "Coba lagi? "; std::cin >> c;
+            std::cout << "Coba lagi? "; tangkapError(&c);
             if (c == 'y' || c == 'Y') login();
             else {
-                std::cout << "Kembali ke menu utama? "; std::cin >> c;
+                std::cout << "Kembali ke menu utama? "; tangkapError(&c);
                 if (c == 'y' || c == 'Y') awal();
+                else{
+                    is_true = true;
+                    awal();
+                }
             }
         }
     }
@@ -71,6 +75,33 @@ public:
     }
     void setTrue(bool status){
        is_true = status;
+    }
+    void tangkapError(int *i){
+        try {
+            std::cin >> *i;
+            if (std::cin.fail()){
+                std::cout << "Input error" << std::endl;
+            }
+        }
+        catch(char *error){}
+    }
+    void tangkapError(char *c){
+        try {
+            std::cin >> *c;
+            if (std::cin.fail()){
+                std::cout << "Input error" << std::endl;
+            }
+        }
+        catch(char *error){}
+    }
+    void tangkapError(std::string *s){
+        try {
+            std::cin >> *s;
+            if (std::cin.fail()){
+                std::cout << "Input error" << std::endl;
+            }
+        }
+        catch(char *error){}
     }
 };
 
